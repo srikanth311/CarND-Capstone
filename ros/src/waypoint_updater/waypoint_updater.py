@@ -25,6 +25,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
+MAX_DECEL = 0.5
 
 
 class WaypointUpdater(object):
@@ -54,9 +55,9 @@ class WaypointUpdater(object):
             if self.pose and self.base_lane:
                 #Get closest waypoint
                 # WHAT I CHANGED (11 Aug)
-                #closest_waypoint_idx = self.get_closest_waypoint_idx()
-                #self.publish_waypoints(closest_waypoint_idx)
-                self.publish_waypoints()
+                closest_waypoint_idx = self.get_closest_waypoint_idx()
+                self.publish_waypoints(closest_waypoint_idx)
+                #self.publish_waypoints()
             rate.sleep()
             
     def get_closest_waypoint_idx(self):
@@ -79,7 +80,7 @@ class WaypointUpdater(object):
             closest_idx = (closest_idx + 1) % len(self.waypoints_2d)
         return closest_idx
     
-    def publish_waypoints(self):
+    def publish_waypoints(self, closest_idx):
         final_lane = self.generate_lane()
         self.final_waypoints_pub.publish(final_lane)
         
