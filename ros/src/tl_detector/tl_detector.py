@@ -12,7 +12,7 @@ import tf
 import cv2
 import yaml
 
-STATE_COUNT_THRESHOLD = 3
+STATE_COUNT_THRESHOLD = 1
 
 class TLDetector(object):
     def __init__(self):
@@ -86,6 +86,7 @@ class TLDetector(object):
             self.state_count = 0
             self.state = state
         elif self.state_count >= STATE_COUNT_THRESHOLD:
+            print('STABLE TL STATE\n\n')
             self.last_state = self.state
             light_wp = light_wp if state == TrafficLight.RED else -1
             self.last_wp = light_wp
@@ -117,17 +118,17 @@ class TLDetector(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
-        return light.state
-    
+        #return light.state
         # UNCOMMENT THIS LATER!!!
-        #if(not self.has_image):
-         #   self.prev_light_loc = None
-          #  return False
+        if(not self.has_image):
+            self.prev_light_loc = None
+            return False
 
-        #cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        img = cv_image[...,::-1].copy()
 
         #Get classification
-        #return self.light_classifier.get_classification(cv_image)
+        return self.light_classifier.get_classification(img)
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
@@ -143,7 +144,7 @@ class TLDetector(object):
         
         # list of positions that correspond to the line to stop in front of for a given intersection
         stop_line_positions = self.config['stop_line_positions']
-        if(self.pose):
+        if(self.pose and self.waypoint_tree):
             car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
             
             # find the closest visible traffic light, if there is one
