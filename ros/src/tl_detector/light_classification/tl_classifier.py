@@ -3,9 +3,16 @@ import numpy as np
 import tensorflow as tf
 
 class TLClassifier(object):
-    def __init__(self):
-        self.inference_file = '../../../data/frozen_inference_graph.pb'
+    def __init__(self, is_site):
+        self.inference_file = ''
+        if is_site:
+            self.inference_file = '../../../data/frozen_inference_graph_site.pb'
+        else:
+            self.inference_file = '../../../data/frozen_inference_graph.pb'
         self.detection_graph = self.load_graph(self.inference_file)
+        print('Graph file loaded:')
+        print(self.inference_file)
+        print('\n\n\n')
 
     def load_graph(self, graph_file):
         """Loads a frozen inference graph"""
