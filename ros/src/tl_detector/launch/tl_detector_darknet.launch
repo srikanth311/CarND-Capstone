@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="tl_detector" type="tl_detectorDarkNet.py" name="tl_detector_darknet" output="screen" cwd="node"/>
+</launch>
