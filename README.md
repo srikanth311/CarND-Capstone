@@ -1,6 +1,6 @@
 ### Udacity Capstone Project 
 
-This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. 
+This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. The developed software uses ROS (Robot Operating System) and allows to drive a car along testing tracks in the simulator and on the test site. Traffic light detection and classification, trajectory planning and control nodes were developed.
 
 ### Notes to Reviewer
 * Viktor Glebov (glebovv3105@gmail.com) - Team Lead 
@@ -8,6 +8,12 @@ This is the project repo for the final project of the Udacity Self-Driving Car N
 * Gustavo Moreira (gustavo1995.2012@hotmail.com) 
 * Iman Akhbari (iman.azadeh@gmail.com) 
 * Srikanth Kodali (srikanth.kodali@gmail.com) 
+
+### Implemented Components
+* Waypoint Updater 
+* Drive-by-Wire Node
+* Traffic Light Detection and Classification Node
+* PID Controller
 
 Please use **one** of the two installation options, either native **or** docker installation.
 
