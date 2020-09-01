@@ -1,6 +1,9 @@
 from styx_msgs.msg import TrafficLight
 import numpy as np
 import tensorflow as tf
+import rospy
+
+tl_states = {0: 'RED', 1: 'YELLOW', 2: 'GREEN', 4: 'UNKNOWN'}
 
 class TLClassifier(object):
     def __init__(self, is_site):
@@ -10,9 +13,7 @@ class TLClassifier(object):
         else:
             self.inference_file = '../../../data/frozen_inference_graph.pb'
         self.detection_graph = self.load_graph(self.inference_file)
-        print('Graph file loaded:')
-        print(self.inference_file)
-        print('\n\n\n')
+        rospy.loginfo('Graph file loaded: %s', self.inference_file)
 
     def load_graph(self, graph_file):
         """Loads a frozen inference graph"""
@@ -66,6 +67,6 @@ class TLClassifier(object):
         scores, classes = self.classify(image)
 
         res = self.interpret_classification(scores, classes)
-        print('Classification res: ' + str(res))
+        rospy.loginfo('TL classification result: %s', tl_states[res])
 
         return res

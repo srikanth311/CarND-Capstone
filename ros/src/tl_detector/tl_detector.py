@@ -11,6 +11,7 @@ from scipy.spatial import KDTree
 import tf
 import cv2
 import yaml
+import rospy
 
 STATE_COUNT_THRESHOLD = 1
 
@@ -87,7 +88,7 @@ class TLDetector(object):
             self.state_count = 0
             self.state = state
         elif self.state_count >= STATE_COUNT_THRESHOLD:
-            print('STABLE TL STATE\n\n')
+            rospy.loginfo('Stable traffic light state')
             self.last_state = self.state
             light_wp = light_wp if state == TrafficLight.RED else -1
             self.last_wp = light_wp
