@@ -14,6 +14,7 @@ This is the project repo for the final project of the Udacity Self-Driving Car N
 * Drive-by-Wire Node
 * Traffic Light Detection and Classification Node
 * PID Controller
+--- 
 
 Please use **one** of the two installation options, either native **or** docker installation.
 
