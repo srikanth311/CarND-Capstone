@@ -27,6 +27,7 @@ class TLClassifier(object):
         return graph
 
     def classify(self, image):
+        """Classifies traffic light image"""
         with self.detection_graph.as_default():
             with tf.Session(graph=self.detection_graph) as sess:
                 image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
@@ -42,6 +43,7 @@ class TLClassifier(object):
         return (scores, classes)
 
     def interpret_classification(self, scores, classes):
+        """Interprets classifier output"""
         if scores is None or scores[0][0] <= 0.5:
             return TrafficLight.UNKNOWN
         else:
