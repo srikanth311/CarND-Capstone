@@ -2,6 +2,7 @@ from styx_msgs.msg import TrafficLight
 import numpy as np
 import tensorflow as tf
 import rospy
+import datetime as dt
 
 tl_states = {0: 'RED', 1: 'YELLOW', 2: 'GREEN', 4: 'UNKNOWN'}
 
@@ -9,11 +10,18 @@ class TLClassifier(object):
     def __init__(self, is_site):
         self.inference_file = ''
         if is_site:
-            self.inference_file = '../../../data/frozen_inference_graph_site.pb'
+            #self.inference_file = '../../../data/frozen_inference_graph_site.pb'
+            self.inference_file = '../../../data/frozen_darknet_yolov3_model.pb'
         else:
             self.inference_file = '../../../data/frozen_inference_graph.pb'
         self.detection_graph = self.load_graph(self.inference_file)
         rospy.loginfo('Graph file loaded: %s', self.inference_file)
+        self.sess = tf.Session(graph=self.detection_graph)
+        self.image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        self.detect_boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
+        self.detect_scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
+        self.detect_classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
+        self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
     def load_graph(self, graph_file):
         """Loads a frozen inference graph"""
@@ -28,18 +36,11 @@ class TLClassifier(object):
 
     def classify(self, image):
         """Classifies traffic light image"""
-        with self.detection_graph.as_default():
-            with tf.Session(graph=self.detection_graph) as sess:
-                image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
-                detect_boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
-                detect_scores = self.detection_graph.get_tensor_by_name('detection_scores:0')
-                detect_classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
-                num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
-
-                image_expanded = np.expand_dims(image, axis=0)
-                (boxes, scores, classes, num) = sess.run(
-                    [detect_boxes, detect_scores, detect_classes, num_detections],
-                    feed_dict={image_tensor: image_expanded})
+        with self.detection_graph.as_default():              
+            image_expanded = np.expand_dims(image, axis=0)
+            (boxes, scores, classes, num) = self.sess.run(
+                [self.detect_boxes, self.detect_scores, self.detect_classes, self.num_detections],
+                feed_dict={self.image_tensor: image_expanded})
         return (scores, classes)
 
     def interpret_classification(self, scores, classes):
