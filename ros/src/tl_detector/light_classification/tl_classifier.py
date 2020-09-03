@@ -9,8 +9,7 @@ class TLClassifier(object):
     def __init__(self, is_site):
         self.inference_file = ''
         if is_site:
-            #self.inference_file = '../../../data/frozen_inference_graph_site.pb'
-            self.inference_file = '../../../data/frozen_darknet_yolov3_model.pb'
+            self.inference_file = '../../../data/frozen_inference_graph_site.pb'
         else:
             self.inference_file = '../../../data/frozen_inference_graph.pb'
         self.detection_graph = self.load_graph(self.inference_file)
@@ -48,11 +47,11 @@ class TLClassifier(object):
             return TrafficLight.UNKNOWN
         else:
             if int(classes[0][0]) == 1:
-                return TrafficLight.GREEN
-            elif int(classes[0][0]) == 2:
                 return TrafficLight.RED
-            elif int(classes[0][0]) == 3:
+            elif int(classes[0][0]) == 2:
                 return TrafficLight.YELLOW
+            elif int(classes[0][0]) == 3:
+                return TrafficLight.GREEN
             else:
                 return TrafficLight.UNKNOWN
 
