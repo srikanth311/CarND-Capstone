@@ -3,11 +3,7 @@
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. The developed software uses ROS (Robot Operating System) and allows to drive a car along testing tracks in the simulator and on the test site. Traffic light detection and classification, trajectory planning and control nodes were developed.
 
 ### Notes to Reviewer
-* Viktor Glebov (glebovv3105@gmail.com) - Team Lead 
-* Shyam Srinivasan (vasank1958@gmail.com) 
-* Gustavo Moreira (gustavo1995.2012@hotmail.com) 
-* Iman Akhbari (iman.azadeh@gmail.com) 
-* Srikanth Kodali (srikanth.kodali@gmail.com) 
+
 
 ### Implemented Components
 * Waypoint Updater 
