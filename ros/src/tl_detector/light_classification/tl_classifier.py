@@ -2,7 +2,6 @@ from styx_msgs.msg import TrafficLight
 import numpy as np
 import tensorflow as tf
 import rospy
-import datetime as dt
 
 tl_states = {0: 'RED', 1: 'YELLOW', 2: 'GREEN', 4: 'UNKNOWN'}
 
